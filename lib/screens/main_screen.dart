@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nimfo/models/anime.dart';
+import 'package:nimfo/screens/detail_screen.dart';
 
 class MainScreen extends StatelessWidget {
   @override
@@ -71,18 +72,25 @@ class AnimeGrid extends StatelessWidget {
       ),
     );
 
-    return GridTile(
-      child: image,
-      footer: Material(
-        color: Colors.transparent,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(4)),
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: GridTileBar(
-          backgroundColor: Colors.black45,
-          title: _GridTitleText(anime.title),
-          // subtitle: _GridTitleText(photo.subtitle),
+    return InkWell(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return DetailScreen(anime: anime);
+        }));
+      },
+      child: GridTile(
+        child: image,
+        footer: Material(
+          color: Colors.transparent,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(4)),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: GridTileBar(
+            backgroundColor: Colors.black45,
+            title: _GridTitleText(anime.title),
+            // subtitle: _GridTitleText(photo.subtitle),
+          ),
         ),
       ),
     );
