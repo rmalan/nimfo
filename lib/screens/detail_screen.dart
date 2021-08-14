@@ -16,28 +16,12 @@ class DetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget> [
-            BackdropAndRating(size: size, anime: anime),
+            PosterFavButton(size: size, anime: anime),
             SizedBox(height: 10.0),
-            TitleDurationAndFabBtn(anime: anime),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: 10.0,
-                horizontal: 20.0,
-              ),
-              child: Text(
-                "Plot Summary",
-                style: Theme.of(context).textTheme.headline5,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Text(
-                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae nesciunt laudantium porro modi asperiores, ut unde nam, tempora explicabo hic optio dolore eum amet nostrum incidunt. Esse porro quam sint?',
-                style: TextStyle(
-                  color: Color(0xFF737599),
-                ),
-              ),
-            ),
+            Title(anime: anime),
+            SynopsisTitle(),
+            Synopsis(anime: anime),
+            SizedBox(height: 20.0),
           ],
         ),
       ),
@@ -45,11 +29,11 @@ class DetailScreen extends StatelessWidget {
   }
 }
 
-class BackdropAndRating extends StatelessWidget {
-  const BackdropAndRating({ Key? key, required this.size, required this.anime }) : super(key: key);
-
+class PosterFavButton extends StatelessWidget {
   final Size size;
   final Anime anime;
+
+  const PosterFavButton({ Key? key, required this.size, required this.anime }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -71,14 +55,11 @@ class BackdropAndRating extends StatelessWidget {
             bottom: 0,
             right: 0,
             child: Container(
-              width: size.width * 0.9,
+              width: size.width * 0.2,
               height: 100,
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(50),
-                  topLeft: Radius.circular(50),
-                ),
+                borderRadius: BorderRadius.all(Radius.circular(50)),
                 boxShadow: [
                   BoxShadow(
                     offset: Offset(0,5 ),
@@ -87,78 +68,10 @@ class BackdropAndRating extends StatelessWidget {
                   )
                 ]
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SvgPicture.asset('assets/icons/star_fill.svg'),
-                      SizedBox(height: 5.0),
-                      RichText(
-                        text: TextSpan(
-                          style: TextStyle(color: Colors.black),
-                          children: [
-                            TextSpan(
-                              text: '${anime.score}',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600
-                              )
-                            ),
-                            TextSpan(text: '/10\n'),
-                            TextSpan(
-                              text: '150,210',
-                              style: TextStyle(color: Color(0xFF9A9BB2))
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SvgPicture.asset('assets/icons/star.svg'),
-                      SizedBox(height: 5.0),
-                      Text(
-                        'Rate This',
-                        style: Theme.of(context).textTheme.bodyText2,
-                      )
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                          color: Color(0xFF51CF66),
-                          borderRadius: BorderRadius.circular(2),
-                        ),
-                        child: Text(
-                          '7000.0',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 5.0),
-                      Text(
-                        'Metascore',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Text(
-                        '62 critic reviews',
-                        style: TextStyle(color: Color(0xFF9A9BB2)),
-                      )
-                    ],
-                  )
+                  FavoriteButton(),
                 ],
               ),
             )
@@ -170,10 +83,10 @@ class BackdropAndRating extends StatelessWidget {
   }
 }
 
-class TitleDurationAndFabBtn extends StatelessWidget {
-  const TitleDurationAndFabBtn({ Key? key, required this.anime }) : super(key: key);
-
+class Title extends StatelessWidget {
   final Anime anime;
+
+  const Title({ Key? key, required this.anime }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -189,45 +102,89 @@ class TitleDurationAndFabBtn extends StatelessWidget {
                   anime.title,
                   style: Theme.of(context).textTheme.headline5,
                 ),
-                SizedBox(height: 20.0 / 2),
+                SizedBox(height: 10.0),
                 Row(
                   children: <Widget>[
+                    SvgPicture.asset(
+                      'assets/icons/star_fill.svg',
+                      height: 20,
+                    ),
+                    SizedBox(width: 2.0),
                     Text(
-                      '20xx',
-                      style: TextStyle(color: Color(0xFF9A9BB2)),
+                      '${anime.score}',
+                      style: Theme.of(context).textTheme.bodyText2,
                     ),
                     SizedBox(width: 20.0),
                     Text(
-                      'PG-13',
-                      style: TextStyle(color: Color(0xFF9A9BB2)),
-                    ),
-                    SizedBox(width: 20.0),
-                    Text(
-                      '2h 32min',
-                      style: TextStyle(color: Color(0xFF9A9BB2)),
+                      anime.aired,
+                      style: Theme.of(context).textTheme.bodyText2,
                     ),
                   ],
                 )
               ],
             )
           ),
-          SizedBox(
-            height: 64,
-            width: 64,
-            child: FlatButton(
-              onPressed: () {},
-              color: Color(0xFFFE6D8E),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20)
-              ),
-              child: Icon(
-                Icons.add,
-                size: 28,
-                color: Colors.white,
-              ),
-            ),
-          ),
         ],
+      ),
+    );
+  }
+}
+
+class FavoriteButton extends StatefulWidget {
+  @override
+  _FavoriteButtonState createState() => _FavoriteButtonState();
+}
+
+class _FavoriteButtonState extends State<FavoriteButton> {
+  bool isFavorite = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(
+        isFavorite ? Icons.favorite : Icons.favorite_border,
+        color: Colors.red,
+      ),
+      iconSize: 36,
+      onPressed: () {
+        setState(() {
+          isFavorite = !isFavorite;
+        });
+      },
+    );
+  }
+}
+
+class SynopsisTitle extends StatelessWidget {
+  const SynopsisTitle({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: 10.0,
+        horizontal: 20.0,
+      ),
+      child: Text(
+        'Synopsis',
+        style: Theme.of(context).textTheme.headline5,
+      ),
+    );
+  }
+}
+
+class Synopsis extends StatelessWidget {
+  final Anime anime;
+
+  const Synopsis({ Key? key, required this.anime }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Text(
+        anime.synopsis,
+        style: Theme.of(context).textTheme.bodyText2,
       ),
     );
   }
